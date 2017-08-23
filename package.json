@@ -1,0 +1,24 @@
+{
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "YelpCamp",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajscimone/YelpCamp.git"
+  },
+  "author": "Anthony Scimone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajscimone/YelpCamp/issues"
+  },
+  "homepage": "https://github.com/ajscimone/YelpCamp#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "ejs": "^2.5.7",
+    "express": "^4.15.4"
+  }
+}
