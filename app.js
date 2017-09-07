@@ -10,7 +10,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost/yelp_camp");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-
+app.use(express.static(__dirname +"/public"));
 seedDB();
 
 //Landing route
@@ -87,6 +87,7 @@ app.get("/campgrounds/:id/comments/new", function(req, res){
         
     });
 });
+
 app.post("/campgrounds/:id/comments", function(req, res){
    //lookup campground using ID
    Campground.findById(req.params.id, function(err, campground){

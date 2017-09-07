@@ -7,17 +7,17 @@ var data = [
     {
         name: "Cloud's Rest", 
         image: "https://farm4.staticflickr.com/3795/10131087094_c1c0a1c859.jpg",
-        description: "Great trees"
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse fermentum leo id lectus accumsan, sit amet scelerisque purus consequat. Aliquam orci velit, dictum non viverra a, pellentesque eu ex. Fusce tempus justo non turpis egestas, sit amet egestas lectus gravida. Morbi et nisl libero. Maecenas vitae nunc eu est vestibulum efficitur eu id dui."
     },
     {
         name: "Desert Mesa", 
         image: "https://farm4.staticflickr.com/3859/15123592300_6eecab209b.jpg",
-        description: "Very hot"
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse fermentum leo id lectus accumsan, sit amet scelerisque purus consequat. Aliquam orci velit, dictum non viverra a, pellentesque eu ex. Fusce tempus justo non turpis egestas, sit amet egestas lectus gravida. Morbi et nisl libero. Maecenas vitae nunc eu est vestibulum efficitur eu id dui."
     },
     {
         name: "Canyon Floor", 
         image: "https://farm1.staticflickr.com/189/493046463_841a18169e.jpg",
-        description: "High clearance road to get in"
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse fermentum leo id lectus accumsan, sit amet scelerisque purus consequat. Aliquam orci velit, dictum non viverra a, pellentesque eu ex. Fusce tempus justo non turpis egestas, sit amet egestas lectus gravida. Morbi et nisl libero. Maecenas vitae nunc eu est vestibulum efficitur eu id dui."
     }
 ]
 
