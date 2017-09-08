@@ -1,10 +1,13 @@
-var express     = require("express"),
-    app         = express(),
-    bodyParser  = require("body-parser"),
-    mongoose    = require("mongoose"),
-    Campground  = require("./models/campground"),
-    Comment     = require("./models/comment"),
-    seedDB      = require("./seeds");
+var express         = require("express"),
+    app             = express(),
+    bodyParser      = require("body-parser"),
+    mongoose        = require("mongoose"),
+    passport        = require("passport"),
+    LocalStrategy   = require("passport-local"),
+    Campground      = require("./models/campground"),
+    Comment         = require("./models/comment"),
+    User            = require("./models/user"),
+    seedDB          = require("./seeds");
 
 mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost/yelp_camp");
@@ -12,6 +15,23 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname +"/public"));
 seedDB();
+
+// PASSPORT CONFIGURATION
+app.use(require("express-session")({
+    secret: "The man in black fled across the desert.",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));                           //User.authenticate is a method that comes with passport
+passport.serializeUser(User.serializeUser());                                   //User.serializeUser and deserialize also come with passport
+passport.deserializeUser(User.deserializeUser());
+
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    next();
+});
 
 //Landing route
 app.get("/", function(req, res){
@@ -30,7 +50,7 @@ app.get("/campgrounds", function(req, res){
             console.log(err);
         }
         else{
-                res.render("campgrounds/index", {campgrounds:allCampgrounds});
+                res.render("campgrounds/index", {campgrounds:allCampgrounds, currentUser: req.user});
         }
     });
 });
@@ -75,8 +95,7 @@ app.get("/campgrounds/:id", function(req, res){
 //  Comments Routes
 //===================================
 
-
-app.get("/campgrounds/:id/comments/new", function(req, res){
+app.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, campground){
          if(err){
             console.log(err);
@@ -88,7 +107,7 @@ app.get("/campgrounds/:id/comments/new", function(req, res){
     });
 });
 
-app.post("/campgrounds/:id/comments", function(req, res){
+app.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
    //lookup campground using ID
    Campground.findById(req.params.id, function(err, campground){
        if(err){
@@ -106,16 +125,61 @@ app.post("/campgrounds/:id/comments", function(req, res){
         });
        }
    });
-   //create new comment
-   //connect new comment to campground
-   //redirect campground show page
+
 });
 
-//Page not found route
- app.get("*", function(req, res){
-     res.send("Sorry, page not found");
- });
+//  ===========
+// AUTH ROUTES
+//  ===========
 
+// show register form
+app.get("/register", function(req, res){
+   res.render("register"); 
+});
+//handle sign up logic
+app.post("/register", function(req, res){
+    var newUser = new User({username: req.body.username});                      //here we make a new user
+    User.register(newUser, req.body.password, function(err, user){              //and register them
+        if(err){
+            console.log(err);
+            return res.render("register");
+        }
+        passport.authenticate("local")(req, res, function(){                    //and then we authenticate and log them in
+           res.redirect("/campgrounds"); 
+        });
+    });
+});
+
+// show login form
+app.get("/login", function(req, res){
+   res.render("login"); 
+});
+// handling login logic
+app.post("/login", passport.authenticate("local",                               //here we just authenticate and log them in
+    {
+        successRedirect: "/campgrounds",
+        failureRedirect: "/login"
+    }), function(req, res){
+});
+
+// logic route
+app.get("/logout", function(req, res){
+   req.logout();
+   res.redirect("/campgrounds");
+});
+
+
+//Middleware function
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
+
+//
+//Server Activation
+//
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Server Listening");
 });
