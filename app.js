@@ -17,9 +17,9 @@ var commentRoutes    = require("./routes/comments.js"),
     authRoutes       = require("./routes/index");
 
 //set up database
-// mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise;
 // mongoose.connect("mongodb://localhost/yelp_camp", {useMongoClient: true});
-mongoose.connect("mongodb://AJScimone:Chill1679!@@!@ds135514.mlab.com:35514/gocamp");
+mongoose.connect("mongodb://anthony:Chill1679!!@ds135514.mlab.com:35514/gocamp", {useMongoClient: true});
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
