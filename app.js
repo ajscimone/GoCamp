@@ -4,7 +4,7 @@ var express          = require("express"),
     mongoose         = require("mongoose"),
     passport         = require("passport"),
     LocalStrategy    = require("passport-local"),
-    flash       = require("connect-flash"),
+    flash            = require("connect-flash"),
     methodOverride   = require("method-override"),
     Campground       = require("./models/campground"),
     Comment          = require("./models/comment"),
@@ -21,6 +21,7 @@ mongoose.Promise = global.Promise;
 // mongoose.connect("mongodb://localhost/yelp_camp", {useMongoClient: true});
 mongoose.connect("mongodb://anthony:Chill1679!!@ds135514.mlab.com:35514/gocamp", {useMongoClient: true});
 
+app.locals.moment = require('moment');
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname +"/public"));
