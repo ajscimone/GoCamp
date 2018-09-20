@@ -4,6 +4,29 @@ var Campground = require("../models/campground");
 var middleware = require("../middleware");
 var geocoder = require('geocoder');
 
+
+
+var darksky = require("darksky");
+var client = darksky.Client("74850a9b53f698157db8ee6e8b8c823b");
+
+//This also works
+// var Forecast = require('forecast');
+// var forecast = new Forecast({
+//   service: 'darksky',
+//   key: '74850a9b53f698157db8ee6e8b8c823b',
+//   units: 'celcius',
+//   cache: true,      // Cache API requests 
+//   ttl: {            // How long to cache requests. Uses syntax from moment.js: http://momentjs.com/docs/#/durations/creating/ 
+//     minutes: 27,
+//     seconds: 45
+//   }
+// });
+
+//         var weatherapi= forecast.get([-33.8683, 151.2086], function(err, weather) {
+//         if(err) return console.dir(err);
+//         console.log(weather);
+//         });
+
 //INDEX - show all campgrounds
 router.get("/", function(req, res){
     // Get all campgrounds from DB
@@ -67,6 +90,27 @@ router.get("/:id", function(req, res){
         }
     });
 });
+
+// SHOW with weather
+// router.get("/:id", function(req, res){
+//     //find the campground with provided ID
+//     Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
+//         if(err){
+//             console.log(err);
+//         } else {
+//             client.forecast('37.8267','-122.423', 
+//                 function(err, data) {
+//                     if (err) {
+//                         console.error(err);
+//                     }
+//                     console.log(foundCampground);
+//                     //render show template with that campground
+//                     res.render("campgrounds/show", {campground: foundCampground, weatherData: data});
+//                 });
+//         }
+//     });
+// });
+
 
 // EDIT CAMPGROUND ROUTE
 router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res){
